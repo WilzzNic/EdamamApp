@@ -1,9 +1,9 @@
-package com.example.edamamapp.repository.model;
+package com.example.edamamapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Ingredient {
+public class Ingredient {
     @SerializedName("text")
     @Expose
     private String text;

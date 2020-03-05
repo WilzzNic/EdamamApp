@@ -1,12 +1,12 @@
-package com.example.edamamapp.repository.model;
+package com.example.edamamapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class Hits {
+public class Hits {
     @SerializedName("recipe")
     @Expose
-    private List<Recipe> recipeList;
+    private Recipe recipe;
 }

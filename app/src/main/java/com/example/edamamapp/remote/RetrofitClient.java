@@ -1,4 +1,4 @@
-package com.example.edamamapp.repository.remote;
+package com.example.edamamapp.remote;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

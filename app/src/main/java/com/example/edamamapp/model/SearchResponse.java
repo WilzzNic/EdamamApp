@@ -1,4 +1,4 @@
-package com.example.edamamapp.repository.model;
+package com.example.edamamapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -28,5 +28,5 @@ public class SearchResponse {
 
     @SerializedName("hits")
     @Expose
-    private List<Hits> hitsList;
+    private List<Hits> hitsList = null;
 }

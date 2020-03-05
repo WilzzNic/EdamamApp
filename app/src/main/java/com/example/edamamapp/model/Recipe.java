@@ -1,11 +1,11 @@
-package com.example.edamamapp.repository.model;
+package com.example.edamamapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class Recipe {
+public class Recipe {
     @SerializedName("uri")
     @Expose
     private String uri;
