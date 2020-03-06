@@ -52,4 +52,64 @@ public class Recipe {
     @Expose
     private Double totalTime;
 
+    public String getUri() {
+        return uri;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getShareAs() {
+        return shareAs;
+    }
+
+    public Double getYield() {
+        return yield;
+    }
+
+    public List<String> getDietLabels() {
+        return dietLabels;
+    }
+
+    public List<String> getHealthLabels() {
+        return healthLabels;
+    }
+
+    public List<String> getCautions() {
+        return cautions;
+    }
+
+    public List<String> getIngredientLines() {
+        return ingredientLines;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public Double getCalories() {
+        return calories;
+    }
+
+    public Double getTotalWeight() {
+        return totalWeight;
+    }
+
+    public Double getTotalTime() {
+        return totalTime;
+    }
+
 }

@@ -29,4 +29,28 @@ public class SearchResponse {
     @SerializedName("hits")
     @Expose
     private List<Hits> hitsList = null;
+
+    public String getQ() {
+        return q;
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    public boolean isMore() {
+        return more;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public List<Hits> getHitsList() {
+        return hitsList;
+    }
 }

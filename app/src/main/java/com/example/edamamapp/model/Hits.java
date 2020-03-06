@@ -9,4 +9,8 @@ public class Hits {
     @SerializedName("recipe")
     @Expose
     private Recipe recipe;
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
 }
