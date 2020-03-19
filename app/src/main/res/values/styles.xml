@@ -6,16 +6,25 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TagTextView" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Divider">
-        <item name="android:background">@color/colorPrimaryLight</item> //you can give your color here. that will change all divider color in your app.
+        <item name="android:background">@android:color/darker_gray</item> //you can give your color here. that will change all divider color in your app.
     </style>
 
     <style name="Divider.Horizontal" parent="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item> // You can change thickness here.
-
+    </style>
+    
+    <style name="ChipText" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="fontFamily">@font/montserrat_regular</item>
     </style>
 
     <style name="Divider.Vertical" parent="Divider">

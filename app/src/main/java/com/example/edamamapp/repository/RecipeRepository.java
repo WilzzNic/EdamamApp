@@ -17,7 +17,7 @@ public class RecipeRepository {
     public MutableLiveData<SearchResponse> getSearchResults() {
         MutableLiveData<SearchResponse> searchData = new MutableLiveData<>();
 
-        APIUtils.getAPIService().search("chicken", BuildConfig.EDAMAM_ID, BuildConfig.EDAMAM_KEY)
+        APIUtils.getAPIService().search("beef", BuildConfig.EDAMAM_ID, BuildConfig.EDAMAM_KEY)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<SearchResponse>() {

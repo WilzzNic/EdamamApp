@@ -7,22 +7,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.example.edamamapp.model.SearchResponse;
 import com.example.edamamapp.utils.RecipeListAdapter;
 import com.example.edamamapp.viewmodel.RecipeViewModel;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipDrawable;
+import com.google.android.material.chip.ChipGroup;
 
 public class MainActivity extends AppCompatActivity {
     private RecipeViewModel mRecipeViewModel;
     private RecyclerView recyclerView;
+    private ChipGroup diet_chips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        diet_chips = findViewById(R.id.diet_chips);
+
+        recyclerView = findViewById(R.id.recycler_view);
         RecipeListAdapter adapter = new RecipeListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -34,5 +39,24 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setRecipes(searchResponse.getHitsList());
             }
         });
+
+        String[] dietFilterArray = getResources().getStringArray(R.array.diet_type);
+
+        for (int i = 0; i < dietFilterArray.length; i++) {
+            Chip chip = new Chip(this);
+            chip.setText(dietFilterArray[i]);
+            ChipDrawable drawable = ChipDrawable.createFromAttributes(this,
+                    null, 0, R.style.Widget_MaterialComponents_Chip_Filter);
+            chip.setChipDrawable(drawable);
+            chip.setTextAppearance(R.style.ChipText);
+            //chip.setCloseIconEnabled(true);
+            //chip.setCloseIconResource(R.drawable.your_icon);
+            //chip.setChipIconResource(R.drawable.your_icon);
+            //chip.setChipBackgroundColorResource(R.color.red);
+            //chip.setTextAppearanceResource(R.style.ChipTextStyle);
+            //chip.setElevation(15);
+
+            diet_chips.addView(chip);
+        }
     }
 }
