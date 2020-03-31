@@ -1,10 +1,13 @@
 package com.example.edamamapp.repository;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.edamamapp.BuildConfig;
 import com.example.edamamapp.model.SearchResponse;
 import com.example.edamamapp.remote.APIUtils;
+
+import java.util.Map;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -14,10 +17,16 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RecipeRepository {
 
-    public MutableLiveData<SearchResponse> getSearchResults() {
+    public LiveData<SearchResponse> getSearchResults(String diet) {
         MutableLiveData<SearchResponse> searchData = new MutableLiveData<>();
 
-        APIUtils.getAPIService().search("beef", BuildConfig.EDAMAM_ID, BuildConfig.EDAMAM_KEY)
+        Map<String, String> params = APIUtils.getBaseQuery("beef");
+        System.out.println("diet: " + diet);
+        if (diet != null) {
+            params.put("diet", diet);
+        }
+
+        APIUtils.getAPIService().search(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<SearchResponse>() {

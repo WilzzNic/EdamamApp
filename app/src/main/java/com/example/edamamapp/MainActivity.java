@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             Chip chip = new Chip(this);
             chip.setText(dietFilterArray[i]);
             ChipDrawable drawable = ChipDrawable.createFromAttributes(this,
-                    null, 0, R.style.Widget_MaterialComponents_Chip_Filter);
+                    null, 0, R.style.Widget_MaterialComponents_Chip_Choice);
             chip.setChipDrawable(drawable);
             chip.setTextAppearance(R.style.ChipText);
             //chip.setCloseIconEnabled(true);
@@ -58,5 +58,18 @@ public class MainActivity extends AppCompatActivity {
 
             diet_chips.addView(chip);
         }
+
+        diet_chips.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                if (checkedId != -1) {
+//                    System.out.println(dietFilterArray[checkedId-1].toLowerCase());
+                    mRecipeViewModel.setDiet(dietFilterArray[checkedId-1].toLowerCase());
+                }
+                else {
+                    mRecipeViewModel.setDiet(null);
+                }
+            }
+        });
     }
 }

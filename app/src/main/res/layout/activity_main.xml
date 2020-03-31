@@ -20,13 +20,15 @@
         android:id="@+id/horizontal_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/dimen_16"
-        android:paddingEnd="@dimen/dimen_16">
+        android:scrollbars="none">
         
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/diet_chips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:singleSelection="true"
+            android:paddingStart="@dimen/dimen_8"
+            android:paddingEnd="@dimen/dimen_8"
             app:singleLine="true">
             
         </com.google.android.material.chip.ChipGroup>
