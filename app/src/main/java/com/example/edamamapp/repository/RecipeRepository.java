@@ -17,11 +17,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RecipeRepository {
 
-    public LiveData<SearchResponse> getSearchResults(String diet) {
+    public LiveData<SearchResponse> getSearchResults(String diet, Integer from, Integer to) {
         MutableLiveData<SearchResponse> searchData = new MutableLiveData<>();
 
         Map<String, String> params = APIUtils.getBaseQuery("beef");
-        System.out.println("diet: " + diet);
+        params.put("from", String.valueOf(from));
+        params.put("to", String.valueOf(to));
+
         if (diet != null) {
             params.put("diet", diet);
         }

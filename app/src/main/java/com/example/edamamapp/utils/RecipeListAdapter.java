@@ -28,16 +28,23 @@ import java.util.List;
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
     private Activity activity;
     private final LayoutInflater mInflater;
-    private List<Hits> hitsList;
+    private List<Hits> hitsList = new ArrayList<>();
 
     public RecipeListAdapter(Activity activity) {
         this.activity = activity;
         mInflater = LayoutInflater.from(activity);
     }
 
-    public void setRecipes(List<Hits> hitsList) {
-        this.hitsList = hitsList;
-        notifyDataSetChanged();
+    public void setRecipes(List<Hits> hits) {
+        if (hits.size() == 0) {
+            hitsList = hits;
+            notifyDataSetChanged();
+        } else {
+            int positionStart = getItemCount();
+            hitsList.addAll(hits);
+            notifyItemRangeInserted(positionStart, hits.size());
+        }
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

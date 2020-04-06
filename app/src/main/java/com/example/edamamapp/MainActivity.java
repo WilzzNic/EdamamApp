@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.example.edamamapp.model.SearchResponse;
+import com.example.edamamapp.utils.EndlessRecyclerViewScrollListener;
 import com.example.edamamapp.utils.RecipeListAdapter;
 import com.example.edamamapp.viewmodel.RecipeViewModel;
 import com.google.android.material.chip.Chip;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private RecipeViewModel mRecipeViewModel;
     private RecyclerView recyclerView;
     private ChipGroup diet_chips;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         RecipeListAdapter adapter = new RecipeListAdapter(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         mRecipeViewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
         mRecipeViewModel.getSearchResults().observe(this, new Observer<SearchResponse>() {
@@ -39,6 +42,19 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setRecipes(searchResponse.getHitsList());
             }
         });
+
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                mRecipeViewModel.nextPage();
+            }
+        };
+
+        // Adds the scroll listener to RecyclerView
+        recyclerView.addOnScrollListener(scrollListener);
 
         String[] dietFilterArray = getResources().getStringArray(R.array.diet_type);
 
@@ -63,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 if (checkedId != -1) {
-//                    System.out.println(dietFilterArray[checkedId-1].toLowerCase());
                     mRecipeViewModel.setDiet(dietFilterArray[checkedId-1].toLowerCase());
                 }
                 else {
