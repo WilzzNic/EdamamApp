@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChipGroup diet_chips;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private String[] dietFilterArray;
+    private boolean reset = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,26 @@ public class MainActivity extends AppCompatActivity {
         // Adds the scroll listener to RecyclerView
         recyclerView.addOnScrollListener(scrollListener);
 
-        String[] dietFilterArray = getResources().getStringArray(R.array.diet_type);
+        populateChips();
+
+        diet_chips.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                adapter.resetList();
+                scrollListener.resetState();
+
+                if (checkedId != -1) {
+                    mRecipeViewModel.setDiet(dietFilterArray[checkedId-1].toLowerCase());
+                }
+                else {
+                    mRecipeViewModel.setDiet(null);
+                }
+            }
+        });
+    }
+
+    public void populateChips() {
+        dietFilterArray = getResources().getStringArray(R.array.diet_type);
 
         for (int i = 0; i < dietFilterArray.length; i++) {
             Chip chip = new Chip(this);
@@ -74,17 +95,5 @@ public class MainActivity extends AppCompatActivity {
 
             diet_chips.addView(chip);
         }
-
-        diet_chips.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup group, int checkedId) {
-                if (checkedId != -1) {
-                    mRecipeViewModel.setDiet(dietFilterArray[checkedId-1].toLowerCase());
-                }
-                else {
-                    mRecipeViewModel.setDiet(null);
-                }
-            }
-        });
     }
 }

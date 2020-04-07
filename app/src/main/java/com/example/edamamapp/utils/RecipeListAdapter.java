@@ -35,6 +35,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
         mInflater = LayoutInflater.from(activity);
     }
 
+    public void resetList() {
+        hitsList.clear();
+        this.notifyDataSetChanged();
+    }
+
     public void setRecipes(List<Hits> hits) {
         if (hits.size() == 0) {
             hitsList = hits;

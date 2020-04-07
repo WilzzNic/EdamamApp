@@ -53,10 +53,21 @@ public class RecipeViewModel extends AndroidViewModel {
         searchParams.setFrom(pageFrom += 10);
         searchParams.setTo(pageTo += 10);
         searchParamsLiveData.setValue(searchParams);
+
     }
 
     public void setDiet(String diet) {
+        resetPage();
         searchParams.setDiet(diet);
         searchParamsLiveData.setValue(searchParams);
+    }
+
+    private void resetPage() {
+        System.out.println("resetPage()");
+        pageFrom = 0;
+        pageTo = 10;
+
+        searchParams.setFrom(pageFrom);
+        searchParams.setTo(pageTo);
     }
 }
