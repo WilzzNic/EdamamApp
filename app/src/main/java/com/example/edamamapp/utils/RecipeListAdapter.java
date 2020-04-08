@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,9 @@ import com.google.android.material.textview.MaterialTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
+public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_LOADING = 1;
+    private static final int VIEW_TYPE_ITEM = 0;
     private Activity activity;
     private final LayoutInflater mInflater;
     private List<Hits> hitsList = new ArrayList<>();
@@ -52,12 +55,12 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
 
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolderRow extends RecyclerView.ViewHolder {
         private ImageView img_food;
         private MaterialTextView txt_recipe_title, txt_calories, txt_ingredient_count;
         private FlexboxLayout label_group;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolderRow(@NonNull View itemView) {
             super(itemView);
             img_food = itemView.findViewById(R.id.img_food);
             txt_recipe_title = itemView.findViewById(R.id.txt_recipe_title);
@@ -67,38 +70,60 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
         }
     }
 
+    private class ViewHolderLoading extends RecyclerView.ViewHolder {
+//        public ProgressBar progressBar;
+
+        public ViewHolderLoading(View view) {
+            super(view);
+        }
+    }
+
     @NonNull
     @Override
-    public RecipeListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.food_item, parent, false);
-        return new ViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = mInflater.inflate(R.layout.food_item, parent, false);
+            return new ViewHolderRow(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = mInflater.inflate(R.layout.progress_bar_item, parent, false);
+            return new ViewHolderLoading(view);
+        }
+        return null;
+
+
+//        View itemView = mInflater.inflate(R.layout.food_item, parent, false);
+//        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeListAdapter.ViewHolder holder, int position) {
-        if (hitsList != null) {
-            Hits hits = hitsList.get(position);
-            Recipe recipe = hits.getRecipe();
-            holder.txt_recipe_title.setText(recipe.getLabel());
-            Glide.with(activity).load(recipe.getImage()).centerCrop().into(holder.img_food);
-            holder.txt_calories.setText(Math.round(recipe.getCalories()) + " kcal");
-            holder.txt_ingredient_count.setText(recipe.getIngredientLines().size() + " ingredients");
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        System.out.println("Position: " + position);
+        if (holder instanceof ViewHolderRow) {
+            ViewHolderRow holderRow = (ViewHolderRow) holder;
+            if (hitsList != null) {
+                Hits hits = hitsList.get(position);
+                Recipe recipe = hits.getRecipe();
+                holderRow.txt_recipe_title.setText(recipe.getLabel());
+                Glide.with(activity).load(recipe.getImage()).centerCrop().into(holderRow.img_food);
+                holderRow.txt_calories.setText(Math.round(recipe.getCalories()) + " kcal");
+                holderRow.txt_ingredient_count.setText(recipe.getIngredientLines().size() + " ingredients");
 
-            List<String> labels = new ArrayList<>();
-            labels.addAll(recipe.getDietLabels());
-            labels.addAll(recipe.getHealthLabels());
+                List<String> labels = new ArrayList<>();
+                labels.addAll(recipe.getDietLabels());
+                labels.addAll(recipe.getHealthLabels());
 
-            if (holder.label_group.getChildCount() == 0) {
-                for (int i = 0; i < labels.size(); i++) {
-                    TextView label_view = (TextView) mInflater.inflate(R.layout.tag_item, null);
-                    label_view.setText(labels.get(i));
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    params.setMargins(convertToPixel(0), convertToPixel(4), convertToPixel(4), convertToPixel(4));
-                    label_view.setLayoutParams(params);
-                    holder.label_group.addView(label_view);
+                if (holderRow.label_group.getChildCount() == 0) {
+                    for (int i = 0; i < labels.size(); i++) {
+                        TextView label_view = (TextView) mInflater.inflate(R.layout.tag_item, null);
+                        label_view.setText(labels.get(i));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        params.setMargins(convertToPixel(0), convertToPixel(4), convertToPixel(4), convertToPixel(4));
+                        label_view.setLayoutParams(params);
+                        holderRow.label_group.addView(label_view);
+                    }
                 }
             }
         }
@@ -106,11 +131,16 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
 
     @Override
     public int getItemCount() {
-        if (hitsList != null) {
-            return hitsList.size();
+        if (!hitsList.isEmpty()) {
+            return hitsList.size() + 1;
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position >= hitsList.size()) ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     private int convertToPixel(int value) {
@@ -121,5 +151,15 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
                 r.getDisplayMetrics()
         );
         return px;
+    }
+
+    public void setLoading() {
+        hitsList.add(null);
+        this.notifyItemInserted(hitsList.size() - 1);
+    }
+
+    public void setLoaded() {
+        hitsList.remove(hitsList.size() - 1);
+        this.notifyItemRemoved(hitsList.size());
     }
 }

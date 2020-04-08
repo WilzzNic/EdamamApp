@@ -40,6 +40,7 @@ public class RecipeRepository {
                     @Override
                     public void onNext(@NonNull SearchResponse searchResponse) {
                         searchData.setValue(searchResponse);
+                        System.out.println("call");
                     }
 
                     @Override

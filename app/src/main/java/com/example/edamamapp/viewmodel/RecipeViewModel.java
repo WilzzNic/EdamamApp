@@ -50,6 +50,7 @@ public class RecipeViewModel extends AndroidViewModel {
     }
 
     public void nextPage() {
+        System.out.println("Next Page");
         searchParams.setFrom(pageFrom += 10);
         searchParams.setTo(pageTo += 10);
         searchParamsLiveData.setValue(searchParams);

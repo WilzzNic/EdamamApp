@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private ChipGroup diet_chips;
     private EndlessRecyclerViewScrollListener scrollListener;
     private String[] dietFilterArray;
-    private boolean reset = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(SearchResponse searchResponse) {
                 adapter.setRecipes(searchResponse.getHitsList());
+//                adapter.setLoaded();
             }
         });
 
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
+//                System.out.println("Page: " + page);
+//                System.out.println("Loading...");
+//                adapter.setLoading();
                 mRecipeViewModel.nextPage();
             }
         };
