@@ -7,32 +7,39 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:layout_marginBottom="@dimen/dimen_4"
+        layout="@layout/toolbar"/>
+
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/dimen_16"
-        android:paddingEnd="@dimen/dimen_16"
         android:paddingTop="@dimen/dimen_4"
+        android:paddingEnd="@dimen/dimen_16"
         android:paddingBottom="@dimen/dimen_4"
-        android:text="Choose type"/>
+        android:text="Choose type" />
 
     <HorizontalScrollView
         android:id="@+id/horizontal_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
-        
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/diet_chips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:singleSelection="true"
             android:paddingStart="@dimen/dimen_8"
             android:paddingEnd="@dimen/dimen_8"
-            app:singleLine="true">
-            
+            app:singleLine="true"
+            app:singleSelection="true">
+
         </com.google.android.material.chip.ChipGroup>
-        
+
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
