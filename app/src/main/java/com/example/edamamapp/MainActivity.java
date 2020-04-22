@@ -1,6 +1,7 @@
 package com.example.edamamapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,11 +23,15 @@ public class MainActivity extends AppCompatActivity {
     private ChipGroup diet_chips;
     private EndlessRecyclerViewScrollListener scrollListener;
     private String[] dietFilterArray;
+    private Toolbar mTopToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTopToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(mTopToolbar);
 
         diet_chips = findViewById(R.id.diet_chips);
 
