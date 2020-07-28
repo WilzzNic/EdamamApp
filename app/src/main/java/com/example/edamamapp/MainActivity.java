@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.LinearLayout;
 
+import com.example.edamamapp.model.Hits;
+import com.example.edamamapp.model.Recipe;
 import com.example.edamamapp.model.SearchResponse;
 import com.example.edamamapp.utils.EndlessRecyclerViewScrollListener;
 import com.example.edamamapp.utils.RecipeListAdapter;
@@ -24,13 +26,14 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeListAdapter.OnItemClickListener{
     private RecipeViewModel mRecipeViewModel;
     private RecyclerView recyclerView;
     private ChipGroup diet_chips;
     private EndlessRecyclerViewScrollListener scrollListener;
     private String[] dietFilterArray;
     private Toolbar mTopToolbar;
+    private RecipeListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         mTopToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mTopToolbar);
+        setTitle("");
 
         diet_chips = findViewById(R.id.diet_chips);
 
         recyclerView = findViewById(R.id.recycler_view);
-        RecipeListAdapter adapter = new RecipeListAdapter(this);
+        adapter = new RecipeListAdapter(this, this::onItemClick);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -127,6 +131,28 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.resetList();
+                scrollListener.resetState();
+
+                mRecipeViewModel.setSearchQuery(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
+    }
+
+    // Callback from RecipeListAdapter
+    @Override
+    public void onItemClick(int position) {
+        System.out.println("Item clicked at position: " + position);
     }
 }

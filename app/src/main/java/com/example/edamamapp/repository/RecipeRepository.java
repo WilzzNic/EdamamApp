@@ -17,10 +17,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RecipeRepository {
 
-    public LiveData<SearchResponse> getSearchResults(String diet, Integer from, Integer to) {
+    public LiveData<SearchResponse> getSearchResults(String query, String diet, Integer from, Integer to) {
         MutableLiveData<SearchResponse> searchData = new MutableLiveData<>();
 
-        Map<String, String> params = APIUtils.getBaseQuery("beef");
+        Map<String, String> params = APIUtils.getBaseQuery(query);
         params.put("from", String.valueOf(from));
         params.put("to", String.valueOf(to));
 
@@ -40,7 +40,6 @@ public class RecipeRepository {
                     @Override
                     public void onNext(@NonNull SearchResponse searchResponse) {
                         searchData.setValue(searchResponse);
-                        System.out.println("call");
                     }
 
                     @Override

@@ -32,10 +32,21 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Activity activity;
     private final LayoutInflater mInflater;
     private List<Hits> hitsList = new ArrayList<>();
+    private final OnItemClickListener mOnClickListener;
 
-    public RecipeListAdapter(Activity activity) {
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public RecipeListAdapter(Activity activity, OnItemClickListener listener) {
         this.activity = activity;
         mInflater = LayoutInflater.from(activity);
+        mOnClickListener = listener;
+    }
+
+    public Recipe getRecipe(int position) {
+        Hits hits = hitsList.get(position);
+        return hits.getRecipe();
     }
 
     public void resetList() {
@@ -55,7 +66,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
-    class ViewHolderRow extends RecyclerView.ViewHolder {
+    class ViewHolderRow extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView img_food;
         private MaterialTextView txt_recipe_title, txt_calories, txt_ingredient_count;
         private FlexboxLayout label_group;
@@ -67,6 +78,12 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             txt_calories = itemView.findViewById(R.id.txt_calories);
             txt_ingredient_count = itemView.findViewById(R.id.txt_ingredient_count);
             label_group = itemView.findViewById(R.id.label_group);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnClickListener.onItemClick(getAdapterPosition());
         }
     }
 
@@ -97,14 +114,15 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        System.out.println("Position: " + position);
         if (holder instanceof ViewHolderRow) {
             ViewHolderRow holderRow = (ViewHolderRow) holder;
             if (hitsList != null) {
-                Hits hits = hitsList.get(position);
-                Recipe recipe = hits.getRecipe();
+                Recipe recipe = getRecipe(position);
                 holderRow.txt_recipe_title.setText(recipe.getLabel());
-                Glide.with(activity).load(recipe.getImage()).centerCrop().into(holderRow.img_food);
+                Glide.with(activity)
+                        .load(recipe.getImage())
+                        .centerCrop()
+                        .into(holderRow.img_food);
                 holderRow.txt_calories.setText(Math.round(recipe.getCalories()) + " kcal");
                 holderRow.txt_ingredient_count.setText(recipe.getIngredientLines().size() + " ingredients");
 
@@ -151,15 +169,5 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 r.getDisplayMetrics()
         );
         return px;
-    }
-
-    public void setLoading() {
-        hitsList.add(null);
-        this.notifyItemInserted(hitsList.size() - 1);
-    }
-
-    public void setLoaded() {
-        hitsList.remove(hitsList.size() - 1);
-        this.notifyItemRemoved(hitsList.size());
     }
 }

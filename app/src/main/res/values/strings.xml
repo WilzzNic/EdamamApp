@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">EdamamApp</string>
-    <string name="food_image">Food Image</string>
     <string name="title">Title</string>
     <string name="edamam_recipes">Edamam Recipes</string>
     <string name="recipe_search_hint">Search Recipes</string>
     <string name="search_recipe">Search Recipe</string>
+    <string name="food_image">Food Image</string>
 </resources>

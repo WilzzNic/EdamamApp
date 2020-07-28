@@ -31,7 +31,7 @@ public class RecipeViewModel extends AndroidViewModel {
         init();
 
         mResponse = Transformations.switchMap(searchParamsLiveData, x ->
-                mRepository.getSearchResults(x.getDiet(), x.getFrom(), x.getTo()));
+                mRepository.getSearchResults(x.getQuery(), x.getDiet(), x.getFrom(), x.getTo()));
 
 //        mResponse = Transformations.switchMap(diet, d ->
 //                mRepository.getSearchResults(d, from, to)
@@ -39,6 +39,7 @@ public class RecipeViewModel extends AndroidViewModel {
     }
 
     private void init() {
+        searchParams.setQuery("beef");
         searchParams.setDiet(null);
         searchParams.setFrom(0);
         searchParams.setTo(10);
@@ -63,8 +64,13 @@ public class RecipeViewModel extends AndroidViewModel {
         searchParamsLiveData.setValue(searchParams);
     }
 
+    public void setSearchQuery(String query) {
+        resetPage();
+        searchParams.setQuery(query);
+        searchParamsLiveData.setValue(searchParams);
+    }
+
     private void resetPage() {
-        System.out.println("resetPage()");
         pageFrom = 0;
         pageTo = 10;
 
