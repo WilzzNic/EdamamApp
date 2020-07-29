@@ -3,9 +3,11 @@ package com.example.edamamapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Recipe {
+// Implement Serializable for passing object through Intent
+public class Recipe implements Serializable {
     @SerializedName("uri")
     @Expose
     private String uri;

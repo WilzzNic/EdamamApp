@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.LayoutTransition;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -153,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     // Callback from RecipeListAdapter
     @Override
     public void onItemClick(int position) {
-        System.out.println("Item clicked at position: " + position);
+        Intent intent = new Intent(this, RecipeDetailsActivity.class);
+        intent.putExtra("Recipe", adapter.getRecipe(position));
+        startActivity(intent);
     }
 }
