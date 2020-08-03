@@ -5,4 +5,20 @@
     <string name="recipe_search_hint">Search Recipes</string>
     <string name="search_recipe">Search Recipe</string>
     <string name="food_image">Food Image</string>
+    <string name="calories">Calories</string>
+    <string name="time">Time</string>
+    <string name="energy">Energy</string>
+    <string name="calories_icon">Calories Icon</string>
+    <string name="time_icon">Time Icon</string>
+    <string name="energy_icon">Energy Icon</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="process">Process</string>
+
+    <string name="lorem_ipsum">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dapibus, felis id viverra ultricies, velit neque varius purus, eu rhoncus metus nisi a enim. Sed fermentum rutrum egestas. Proin dapibus, magna at cursus vestibulum, ligula nibh facilisis est, sit amet placerat diam nibh vitae sem. Vestibulum pellentesque iaculis lacus, viverra tincidunt diam volutpat eget. Aenean molestie venenatis imperdiet. Vivamus lacinia, lacus non fermentum bibendum, ante dolor euismod mi, quis molestie lacus nisi sed ipsum. Curabitur tincidunt cursus lorem vitae fringilla. Duis sollicitudin augue sed quam tincidunt, eu aliquam ipsum lobortis. Pellentesque malesuada, quam at scelerisque elementum, lectus nisl auctor elit, sit amet pretium est tortor sit amet massa. Vivamus nec bibendum dui. Integer dui neque, convallis a pellentesque et, porta sit amet dui. Sed ultricies, ex non maximus pulvinar, est libero gravida mauris, eu aliquet nisl augue ac tellus. Donec nec sollicitudin mauris. Donec euismod vehicula libero, consequat consectetur lorem pharetra in.
+
+Ut lorem mauris, rutrum id semper ut, molestie sed lorem. Suspendisse potenti. Nunc id lacus eros. Praesent tincidunt aliquam pulvinar. In quis posuere massa, vitae rhoncus nisi. Cras porttitor arcu id fringilla rutrum. Praesent ac ex eget orci egestas fringilla faucibus sed odio. In hac habitasse platea dictumst. Pellentesque placerat eget dui id rhoncus.
+    </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
