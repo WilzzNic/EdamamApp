@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.edamamapp.model.Recipe
+import com.example.edamamapp.utils.RecipeDetailsViewPager
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
 
@@ -29,6 +31,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
                 .centerCrop()
                 .into(imgViewFood!!)
 
-
+        val viewPager : ViewPager = findViewById(R.id.viewpager)
+        viewPager.adapter = RecipeDetailsViewPager(supportFragmentManager, this)
     }
 }
